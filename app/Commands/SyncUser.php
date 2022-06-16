@@ -29,15 +29,19 @@ class SyncUser extends Command
      */
     public function handle()
     {
-        $users = DB::connection('mysql')
+        $this->info("running...");
+	users = DB::connection('mysql')
             ->table('users')
             ->join('traders', 'users.id', '=', 'traders.user_id')
             ->get(['users.*', 'traders.name']);
+	
+	$this->info($users->isEmpty());
 
         foreach ($users as $user) {
             $chatUser = DB::connection('mysql2')
                 ->table('users')
                 ->find($user->id);
+	var_dump($chatUser);
 
             if (!$chatUser) {
 
